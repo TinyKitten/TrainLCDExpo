@@ -8,6 +8,9 @@ import {
   BLE_TARGET_LOCAL_NAME,
   BLE_TARGET_SERVICE_UUID,
 } from 'react-native-dotenv'
+import { useRecoilValue } from 'recoil'
+import stationState from '../store/atoms/station'
+import useIsPassing from './useIsPassing'
 import { useStore } from './useStore'
 
 const manager = new BleManager()
@@ -18,6 +21,29 @@ export const useBLEDiagnostic = () => {
   const longitude = useStore((state) => state.location?.coords.longitude)
   const accuracy = useStore((state) => state.location?.coords.accuracy)
   const speed = useStore((state) => state.location?.coords.speed)
+  const { arrived, approaching } = useRecoilValue(stationState)
+
+  const isPassing = useIsPassing()
+
+  const stateText = useMemo(() => {
+    const states = []
+
+    if (isPassing) {
+      states.push('PASSING')
+    }
+    if (approaching) {
+      states.push('APPROACHING')
+    }
+    if (arrived) {
+      states.push('ARRIVED')
+    }
+
+    if (!states.length) {
+      return 'NONE'
+    }
+
+    return states.join(', ')
+  }, [approaching, arrived, isPassing])
 
   const payloadStr = useMemo(() => {
     return btoa(
@@ -29,11 +55,12 @@ Lat:${latitude ?? '?'}
 Lon:${longitude ?? '?'}
 Acc:${(accuracy ?? 0) > 0 ? `${accuracy}m` : '?'}
 Spd:${(speed ?? 0) > 0 ? `${speed}km/h` : '?'}
+Sts:${stateText}
           `.trim()
         )
       )
     )
-  }, [accuracy, latitude, longitude, speed])
+  }, [accuracy, latitude, longitude, speed, stateText])
 
   const scanAndConnect = useCallback(() => {
     manager.startDeviceScan(null, null, async (err, dev) => {
