@@ -20,8 +20,8 @@ import {
 } from '../constants'
 import useAndroidWearable from '../hooks/useAndroidWearable'
 import useAppleWatch from '../hooks/useAppleWatch'
-import useBLE from '../hooks/useBLE'
 import { useBadAccuracy } from '../hooks/useBadAccuracy'
+import { useBLEDiagnostic } from '../hooks/useBLEDiagnostic'
 import useCachedInitAnonymousUser from '../hooks/useCachedAnonymousUser'
 import useCheckStoreVersion from '../hooks/useCheckStoreVersion'
 import useConnectivity from '../hooks/useConnectivity'
@@ -89,7 +89,7 @@ const PermittedLayout: React.FC<Props> = ({ children }: Props) => {
   useUpdateLiveActivities()
   useListenMessaging()
   // 実験用
-  useBLE()
+  useBLEDiagnostic()
 
   const user = useCachedInitAnonymousUser()
   const currentLine = useRecoilValue(currentLineSelector)

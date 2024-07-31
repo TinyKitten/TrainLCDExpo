@@ -82,7 +82,7 @@ const DevOverlay: React.FC = () => {
         style={styles.text}
       >{`Power saving preset: ${powerSavingPreset}`}</Typography>
 
-      <Typography style={styles.text}>Processing Mode: Device + BLE</Typography>
+      <Typography style={styles.text}>BLE: MONITORING</Typography>
     </View>
   )
 }
