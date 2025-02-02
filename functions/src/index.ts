@@ -154,12 +154,12 @@ exports.tts = onCall({ region: 'asia-northeast1' }, async (req) => {
     .replaceAll('`', '')
     // 一丁目で終わる駅
     .replaceAll(
-      '-itchome',
+      'itchome',
       `<phoneme alphabet="ipa" ph="itt͡ɕoːme">いっちょうめ</phoneme>`
     )
     // 新宿三丁目など
     .replaceAll(
-      '-sanchome',
+      'sanchome',
       ' <phoneme alphabet="ipa" ph="sant͡ɕoːme">さんちょうめ</phoneme>'
     )
     // 宇部
@@ -192,7 +192,7 @@ exports.tts = onCall({ region: 'asia-northeast1' }, async (req) => {
     // 西武
     .replaceAll('Seibu', '<phoneme alphabet="ipa" ph="seibɯ">せいぶ</phoneme>')
     // 日本語はjoを「ホ」と読まない
-    .replaceAll(/jo/gi, '<phoneme alphabet="ipa" ph="ʤo">じょ</phoneme>');
+    .replaceAll('jo', '<phoneme alphabet="ipa" ph="ʤo">じょ</phoneme>');
 
   if (typeof ssmlEn !== 'string' || ssmlEn.length === 0) {
     throw new HttpsError(
